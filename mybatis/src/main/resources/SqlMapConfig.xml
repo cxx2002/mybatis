@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration><!--resource:从resource目录下找指定名称的文件加载|url:绝对路径注册|class:动态代理下的注册-->
+    <properties resource="jdbc.properties"></properties>
+    <settings><!--日志输出底层执行的代码-->
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+     <typeAliases><!--批量取别名，取名为类名的小驼峰命名规范-->
+        <package name="com.cxx.pojo"></package>
+    </typeAliases>
+    <!--配置数据库的环境变量(数据库连接配置)-->
+    <environments default="development">
+        <environment id="development"><!--在公司数据库的配置-->
+            <!--
+            配置事务管理器：type指定事务的管理方式
+                                JDBC：事务控制交给程序员处理
+                                MANAGED：由容器(spring)来管理事务
+            -->
+            <transactionManager type="JDBC"></transactionManager>
+            <!--
+            配置数据源：type指定不同的配置方式
+                            JNDI：java命名目录接口，在服务器端进行数据库连接池的管理
+                            POOLED：使用数据库连接池
+                            UNPOOLED：不使用数据库连接池
+            -->
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driverClassName}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+        <!--<environment id="home">&lt;!&ndash;在家的数据库的配置&ndash;&gt;
+            <transactionManager type=""></transactionManager>
+            <dataSource type=""></dataSource>
+        </environment>
+        <environment id="online">&lt;!&ndash;上线后数据库的配置&ndash;&gt;
+            <transactionManager type=""></transactionManager>
+            <dataSource type=""></dataSource>
+        </environment>-->
+    </environments>
+    <!--注册mapper.xml文件-->
+    <!--resource:从resource目录下找指定名称的文件加载|url:绝对路径注册|class:动态代理下的注册-->
+ <!--       <mappers>
+        <mapper resource="StudentMapper.xml"></mapper>
+    </mappers>   -->
+    <mappers>
+        <mapper class="com/cxx/mapper/StudentMapper.xml"></mapper>
+        <!--或者--><!--<package name="com/cxx/mapper/StudentMapper.xml"/>-->
+    </mappers>
+
+
+</configuration>

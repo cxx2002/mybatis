@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cxx">
+
+    <!--
+    完成查询全部学生的功能
+    Li st<Student> getALL() ;
+    resultType:指定查询返回的结果集的类型,如果是集合,则必须是泛型的类型
+    parameterType :如果有参数,则通过它来指定参数的类型
+    -->
+    <select id="getAll" resultType= "student" >
+        select id, name , email , age
+        from student
+    </select>
+    <!--按主键id查询学生信息|Student getById(Integer id) -->
+    <select id="getById" parameterType="int" resultType= "com.cxx.pojo.Student" >
+        select id, name , email , age
+        from student
+        where id=#{id}
+    </select>
+    <!--按学生名称模糊查询学生信息|List<Student> getByName(String name)-->
+    <select id="getByName" parameterType="String" resultType= "com.cxx.pojo.Student" >
+        select id, name , email , age
+        from student
+        where name like concat('%',#{name},'%')
+    </select>
+    <!--/*where name like '%${name}%'*//*防止sql注入*/-->
+    <!--增加学生|int insert(Student stu)-->
+    <insert id="insert" parameterType="com.cxx.pojo.Student" >
+        insert into student (name,email,age) values (#{name},#{email},#{age})
+    </insert>
+    <!--按姓名删除学生|int insert(String name)-->
+    <delete id="delete" parameterType="String" >
+        delete from student where name = #{anme}
+    </delete>
+    <!--按id更新学生|int update(int id)-->
+    <update id="update" parameterType="com.cxx.pojo.Student" >
+        update student set name = #{name},email = #{email},age = #{age}
+        where id=#{id}
+    </update>
+
+</mapper>
